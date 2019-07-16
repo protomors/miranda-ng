@@ -5,4 +5,7 @@ env:
 script:
   - export PATH=$MSBUILD_PATH:$PATH
   - build/make_ver.bat
-  - MSBuild.exe "bin15\miranda32.sln"
+  - mkdir output
+  - cd output
+  - cmake ..
+  - cmake --build . --config Release
