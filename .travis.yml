@@ -4,4 +4,5 @@ env:
   - MSBUILD_PATH="/C/Program Files (x86)/Microsoft Visual Studio/2017/BuildTools/MSBuild/15.0/Bin"
 script:
   - export PATH=$MSBUILD_PATH:$PATH
-  - MSBuild.exe -help
+  - build/make_ver.bat
+  - MSBuild.exe "bin15\miranda32.sln"
