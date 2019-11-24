@@ -1,5 +1,6 @@
 file(GLOB SOURCES "src/*.h" "src/api/*.h" "src/*.cpp" "res/*.rc")
 set(TARGET Steam)
+string(REPLACE "/EHsc" "" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
 include(${CMAKE_SOURCE_DIR}/cmake/plugin.cmake)
 target_link_libraries(${TARGET} libjson FreeImage comctl32.lib)
 set_target_properties(${TARGET} PROPERTIES COMPILE_FLAGS "/std:c++17")
