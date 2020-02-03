@@ -3,7 +3,10 @@ name: CI
 on:
   push:
     branches:
-    - github-actions
+    - cmake
+
+env:
+  build-type: Release
 
 jobs:
   build:
@@ -13,21 +16,21 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Create m_version.h
-      run: build/make_ver.bat
+    - name: Create Build Environment
+      run: cmake -E make_directory ${{runner.workspace}}/build
 
-    - name: Add msbuild to PATH
-      uses: microsoft/setup-msbuild@v1.0.2
+    - name: Configure CMake
+      shell: bash
+      working-directory: ${{runner.workspace}}/build
+      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{env.build-type}}
 
-    - name: Compile
-      working-directory: bin16
-      run: msbuild miranda32.sln /property:Configuration=Release /property:Platform=x64
+    - name: Build
+      working-directory: ${{runner.workspace}}/build
+      shell: bash
+      run: cmake --build . --config ${{env.build-type}}
 
     - name: Save build
       uses: actions/upload-artifact@v2
       with:
-        name: Release64
-        path: |
-          bin16/Release64
-          !bin16/Release64/Obj
-          !bin16/Release64/**/*.pdb
+        name: build
+        path: ${{runner.workspace}}/build/${{env.build-type}}
