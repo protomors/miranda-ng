@@ -1,0 +1,24 @@
+name: CI
+
+on:
+  push:
+    branches:
+    - github-actions
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Create m_version.h
+      run: build/make_ver.bat
+
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v1.0.2
+
+    - name: Compile
+      working-directory: bin16
+      run: msbuild miranda32.sln
