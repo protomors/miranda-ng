@@ -21,12 +21,13 @@ jobs:
 
     - name: Compile
       working-directory: bin16
-      run: msbuild miranda32.sln
+      run: msbuild miranda32.sln /property:Configuration=Release
 
     - name: Save build
       uses: actions/upload-artifact@v2
       with:
-        name: Debug
+        name: Release
         path: |
-          bin16/Debug
-          !bin16/Debug/Obj
+          bin16/Release
+          !bin16/Release/Obj
+          !bin16/Release/**/*.pdb
