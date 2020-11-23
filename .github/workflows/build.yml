@@ -22,3 +22,11 @@ jobs:
     - name: Compile
       working-directory: bin16
       run: msbuild miranda32.sln
+
+    - name: Save build
+      uses: actions/upload-artifact@v2
+      with:
+        name: Debug
+        path: |
+          bin16/Debug
+          !bin16/Debug/Obj
